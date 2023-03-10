@@ -1,12 +1,5 @@
 # Given the grammar of MP as follows:
 
-
-
-
-
-
-
-
 # INTTYPE: 'int';
 
 # FLOATTYPE: 'float';
