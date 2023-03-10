@@ -36,25 +36,41 @@
 
 class ASTGeneration(MPVisitor):
 
+    # program: vardecls EOF;
     def visitProgram(self,ctx:MPParser.ProgramContext):
+        return Program(self.visit(ctx.vardecls())) 
 
-        return None
-
+    # vardecls: vardecl vardecltail;
     def visitVardecls(self,ctx:MPParser.VardeclsContext):
-
-        return None
-
+        res = self.visit(ctx.vardecl())
+        if ctx.vardecltail():
+            res += self.visit(ctx.vardecltail())
+        return res  
+    
+    # int a; -> vardecl
+    # int b; -> vardecltail -> vardecl
+    # int c; -> vardecltail -> vardecltail -> vardecl
+    # vardecltail: vardecl vardecltail | ;
     def visitVardecltail(self,ctx:MPParser.VardecltailContext): 
-
-        return None
-
+        if ctx.getChildCount() == 0:
+            return []
+        return self.visit(ctx.vardecl()) + self.visit(ctx.vardecltail())
+    
+    # vardecl: mptype ids ';' ;
+    # int a,b; -> [VarDecl(Id(a),IntType())] + [VarDecl(Id(b),IntType())]
     def visitVardecl(self,ctx:MPParser.VardeclContext): 
-        return None
+        return list(map(
+            lambda x: VarDecl(x, self.visit(ctx.mptype())),
+            self.visit(ctx.ids())
+        ) )
 
+    # mptype: INTTYPE | FLOATTYPE;
     def visitMptype(self,ctx:MPParser.MptypeContext):
+        return IntType() if ctx.INTTYPE() else FloatType()
 
-        return None
-
+    # ids: ID ',' ids | ID; 
     def visitIds(self,ctx:MPParser.IdsContext):
-
-        return None
+        if ctx.getChildCount() == 1:
+            return [Id(ctx.ID().getText())]
+        # return as a list
+        return [Id(ctx.ID().getText())] + self.visit(ctx.ids())
