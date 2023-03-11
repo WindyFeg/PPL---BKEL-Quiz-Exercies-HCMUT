@@ -34,17 +34,22 @@ class ASTGeneration(MPVisitor):
 
     # mptype: primtype | arraytype;
     def visitMptype(self,ctx:MPParser.MptypeContext):
-        return self.visit(ctx.primtype()) if ctx.primtype() else self.visit(ctx.arraytype())
+        type = None
+        if 'integer' in ctx.getText():
+            type = IntType()
+        elif 'real' in ctx.getText(): type = FloatType()
+
+        return self.visit(ctx.primtype()) if ctx.primtype() else ArrayType(self.visit(ctx.arraytype()), type)
 
     # arraytype: arraytype dimen | primtype dimen;
     # real [-3..0][-10..-1] -> primtype dimen dimen
     def visitArraytype(self,ctx:MPParser.ArraytypeContext):
-        # !GOD HELP ME
-        # *primtype dimen dimen
-        # *primtype dimen
-        # arraytype != null return Union()
-        # return Arraytype(Union(RecallUnion,dimen)) if arraytype != null else Arraytype(dimen)
-        return ArrayType(self.visit(ctx.dimen()),self.visit(ctx.mptype())) if ctx.primtype() else ArrayType(self.visit(ctx.dimen()),self.visit(ctx.primtype()))
+        # primtype dimen dimen
+        # primtype dimen
+        if ctx.arraytype():
+            return UnionType(self.visit(ctx.arraytype()) , self.visit(ctx.dimen()))
+        # head case: primtype dimen
+        return self.visit(ctx.dimen())
 
     # primtype: INTTYPE | FLOATTYPE; 
     def visitPrimtype(self,ctx:MPParser.PrimtypeContext): 
