@@ -50,7 +50,7 @@ class StaticCheck(Visitor):
             if isinstance(decl,FuncDecl):
                 o_func.append(self.visit(decl,o+o_func+[ctx.name]))
             else:
-                o_func.append(self.visit(decl,o_func))
+                o_func.append(self.visit(decl,o+ o_func))
         o_func = o + o_func+[ctx.name]
         for expr in ctx.body[1]:
             self.visit(expr,o_func)
