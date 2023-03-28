@@ -29,6 +29,10 @@
 
 #? If an expression does not conform the type constraints, the StaticCheck will raise exception TypeMismatchInExpression with the expression.
 
+#! isinstance(bool, int) is always True 
+class IntType: pass
+class FloatType: pass
+class BoolType: pass
 class StaticCheck(Visitor):
     #@ class Exp(ABC): #abstract class
 
@@ -42,100 +46,120 @@ class StaticCheck(Visitor):
         
     #@ class VarDecl: #name:str
     def visitVarDecl(self,ctx:VarDecl,o): 
-        if ctx.name in o:
-            raise TypeRedeclaration(ctx.name)
         return [ctx.name, None]
 
     #@ class Assign: #lhs:Id,rhs:Exp
     def visitAssign(self,ctx:Assign,o): 
-        lhs = self.visit(ctx.lhs,o)
         rhs_type = self.visit(ctx.rhs,o)
+        lhs_type = self.visit(ctx.lhs,o)
+        if lhs_type and rhs_type:
+            if type(lhs_type) is not type(rhs_type):
+                raise TypeMismatchInStatement(ctx)
+        elif (not lhs_type) and rhs_type:
+            #update type for Id
+            o.append(rhs_type)
+            self.visit(ctx.lhs,o)
+        elif lhs_type and (not rhs_type):
+            o.append(lhs_type)
+            self.visit(ctx.rhs,o)
+        else:
+            raise TypeCannotBeInferred(ctx)
 
-        if lhs[1] == None:
-            for id in o:
-                if id[0] == lhs[0]:
-                    id[1] = rhs_type
-            lhs[1] = rhs_type
-
-        a = 'int' if isinstance(rhs_type, int) else 'float' if isinstance(rhs_type, float) else 'bool'
-        b = 'int' if isinstance(lhs, int) else 'float' if isinstance(lhs, float) else 'bool'
-
-        if lhs != rhs_type:
-            raise TypeMismatchInStatement(a + b)
-        return None
+        
 
     #@ class BinOp(Exp): #op:str,e1:Exp,e2:Exp #op is +,-,*,/,+.,-.,*.,/., &&,||, >, >., >b, =, =., =b
     def visitBinOp(self,ctx:BinOp,o): 
         left = self.visit(ctx.e1, o)
         right = self.visit(ctx.e2, o)
         op = ctx.op
+        accept_type = None
+        return_type = None
         if op in ['+', '-', '*', '/']:
-            if isinstance(left, int) and isinstance(right, int):
-                return int() 
-            else:
-                raise TypeMismatchInExpression(ctx)
+            accept_type = IntType()
+            return_type = IntType()
         elif op in ['+.','-.','*.','/.']:
-            if isinstance(left, float) and isinstance(right, float):
-                return float()
-            raise TypeMismatchInExpression(ctx)
+            accept_type = FloatType()
+            return_type = FloatType()
         elif op in ['>','=']:
-            if isinstance(left, int) and isinstance(right, int):
-                return bool() 
-            raise TypeMismatchInExpression(ctx)
+            accept_type = IntType()
+            return_type = BoolType()
         elif op in ['>.','=.']:
-            if isinstance(left, float) and isinstance(right, float):
-                return bool() 
-            raise TypeMismatchInExpression(ctx)
+            accept_type = FloatType()
+            return_type = BoolType()
         elif op in ['!', '&&', '||', '>b','=b']:
-            if isinstance(left, bool) and isinstance(right, bool):
-                return bool()
+            accept_type = BoolType()
+            return_type = BoolType()
+
+        if left and right:
+            if type(left) == type(accept_type) and type(right) == type(accept_type):
+                return return_type
             raise TypeMismatchInExpression(ctx)
-        else:
-            raise TypeMismatchInExpression(ctx)
-        
+        #update_typ for Id
+        elif not left:
+            o.append(accept_type)
+            self.visit(ctx.e1,o)
+            if not right:
+                o.append(accept_type)
+                self.visit(ctx.e2,o)
+            elif type(right) is not type(accept_type):
+                raise TypeMismatchInExpression(ctx)
+        elif not right:
+            if type(left) is not type(accept_type):
+                raise TypeMismatchInExpression(ctx)
+            o.append(accept_type)
+            self.visit(ctx.e2,o)
+        return return_type
 
     #@ class UnOp(Exp): #op:str,e:Exp #op is -,-., !,i2f, floor
     def visitUnOp(self,ctx:UnOp,o): 
-        op = ctx.op
-        value = ctx.e
-        if op == 'i2f':
-            if isinstance(value, int):
-                return float()
-            raise TypeMismatchInExpression(ctx)
-        elif op == 'floor':
-            if isinstance(value, float):
-                return int()
-            raise TypeMismatchInExpression(ctx)
-        elif op == '-':
-            if isinstance(value, int):
-                return int()
-            raise TypeMismatchInExpression(ctx)
-        elif op == '-.':
-            if isinstance(value,float):
-                return float()
-            raise TypeMismatchInExpression(ctx)
-        elif op == '!':
-            if isinstance(value, bool):
-                return bool()
+        value = self.visit(ctx.e,o)
+        accept_type = None
+        return_type = None
+        if ctx.op == "-":
+            accept_type = IntType()
+            return_type = IntType()
+        elif ctx.op == "-.":
+            accept_type = FloatType()
+            return_type = FloatType()
+        elif ctx.op == "!":
+            accept_type = BoolType()
+            return_type = BoolType()
+        elif ctx.op == "i2f":
+            accept_type = IntType()
+            return_type = FloatType()
+        elif ctx.op == "floor":
+            accept_type = FloatType()
+            return_type = IntType()
+            
+        if value:    
+            if type(value) == type(accept_type):
+                return return_type
             raise TypeMismatchInExpression(ctx)
         else:
-            raise TypeMismatchInExpression(ctx)
+            #update_typ for Id
+            o.append(accept_type)
+            self.visit(ctx.e,o)
+        return return_type
 
     #@ class IntLit(Exp): #val:int
     def visitIntLit(self,ctx:IntLit,o): 
-        return int() 
+        return IntType() 
 
     #@ class FloatLit(Exp): #val:float
     def visitFloatLit(self,ctx,o): 
-        return float()
+        return FloatType()
 
     #@ class BoolLit(Exp): #val:bool
     def visitBoolLit(self,ctx,o): 
-        return bool()
+        return BoolType()
     
     #@ class Id(Exp): #name:str
-    def visitId(self,ctx,o): 
+    def visitId(self,ctx:Id,o): 
         for id in o:
             if id[0] == ctx.name:
-                return id
+                if type(o[-1]) in (IntType,FloatType,BoolType): 
+                    id[1] = o.pop()
+                    return None
+                else:
+                    return id[1]
         raise UndeclaredIdentifier(ctx.name)
