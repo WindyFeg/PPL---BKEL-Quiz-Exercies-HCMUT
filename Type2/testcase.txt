@@ -1,0 +1,21 @@
+Program([
+    VarDecl("x"),
+    FuncDecl("foo", [VarDecl("y")], [], []),
+], [
+    CallStmt("foo", [IntLit(3)]), -> [['y', IntLit]]
+    CallStmt("foo", [Id("x")]),   -> [['x', Intlit]]
+    !Assign(Id("x"), FloatLit(0.0))
+])
+@->Type Mismatch In Statement: Assign(Id("x"),FloatLit(0.0))
+
+
+Program([
+    VarDecl("x"),
+    FuncDecl("foo", [VarDecl("y"), VarDecl("z")], [], [
+        Assign(Id("z"), FloatLit(0.0))
+    ]),
+], [
+    CallStmt("foo", [IntLit(3), Id("x")]),
+    !CallStmt("foo", [Id("x"), FloatLit(0.0)])
+])
+@->Type Mismatch In Statement: CallStmt("foo",[Id("x"),FloatLit(0.0)])
