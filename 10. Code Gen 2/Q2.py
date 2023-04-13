@@ -7,3 +7,4 @@
 #? Based on the above assumption, write method visitBinExpr(self,ctx,o) of visitor CodeGeneration? Your code is at line 160.
 #? Remind that class Type has subclasses: IntType, FloatType, VoidType, StringType, ArrayType, MType.
 
+f1
