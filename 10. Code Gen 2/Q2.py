@@ -8,3 +8,5 @@
 #? Remind that class Type has subclasses: IntType, FloatType, VoidType, StringType, ArrayType, MType.
 
 f1
+
+f2
