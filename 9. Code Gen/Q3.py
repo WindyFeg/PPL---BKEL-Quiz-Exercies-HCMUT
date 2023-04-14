@@ -23,19 +23,20 @@
 # CallExpr(Id("putInt"),[BinExpr("/",BinExpr("-",IntLiteral(5),IntLiteral(3)),IntLiteral(3))])
 # b'0'
 # b'0'
+#! ALL OF CODE BELOW NEED TO BE TABBED WHEN SUBMITTING TO BKEL
 
-    def visitBinExpr(self,ctx,o):
-        expr1, expr1_type = self.visit(ctx.e1,o)
-        expr2, expr2_type = self.visit(ctx.e2,o)
-        if ctx.op in ['+', '-']: 
-            codegen =expr1 + expr2 + self.emit.emitADDOP(ctx.op, IntType(), o.frame)
-            return codegen, IntType()
-        if ctx.op in ['*', '/']: 
-            codegen =expr1 + expr2 + self.emit.emitMULOP(ctx.op, IntType(), o.frame)
-            return codegen, IntType()
-        if ctx.op in ['+.', '-.']:
-            codegen = expr1 + expr2 + self.emit.emitADDOP(ctx.op[0], FloatType(), o.frame)
-            return codegen, FloatType()
-        if ctx.op in ['*.', '/.']:
-            codegen = expr1 + expr2 + self.emit.emitMULOP(ctx.op[0], FloatType(), o.frame)
-            return codegen, FloatType()
+def visitBinExpr(self,ctx,o):
+    expr1, expr1_type = self.visit(ctx.e1,o)
+    expr2, expr2_type = self.visit(ctx.e2,o)
+    if ctx.op in ['+', '-']: 
+        codegen =expr1 + expr2 + self.emit.emitADDOP(ctx.op, IntType(), o.frame)
+        return codegen, IntType()
+    if ctx.op in ['*', '/']: 
+        codegen =expr1 + expr2 + self.emit.emitMULOP(ctx.op, IntType(), o.frame)
+        return codegen, IntType()
+    if ctx.op in ['+.', '-.']:
+        codegen = expr1 + expr2 + self.emit.emitADDOP(ctx.op[0], FloatType(), o.frame)
+        return codegen, FloatType()
+    if ctx.op in ['*.', '/.']:
+        codegen = expr1 + expr2 + self.emit.emitMULOP(ctx.op[0], FloatType(), o.frame)
+        return codegen, FloatType()
