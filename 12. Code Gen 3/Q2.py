@@ -13,29 +13,37 @@
 #! ALL OF CODE BELOW NEED TO BE TABBED WHEN SUBMITTING TO BKEL 
 
 def visitFuncDecl(self, ctx, o):
+    # Create a new frame for the function and enter its scope
     o.frame = Frame(ctx.name, ctx.returnType)
     o.frame.enterScope(True)
 
+    # Generate code for the method and print it out
     InType = [x.typ for x in ctx.param]
     self.emit.printout(self.emit.emitMETHOD(ctx.name, MType(InType, ctx.returnType), True))
 
+    # Declare the function parameters in the local scope
     LocalScope = []
     for pr in ctx.param:
         prSym = self.visit(pr, SubBody(o.frame, LocalScope))
         LocalScope += [prSym]
 
+    # Declare the local variables in the function's body
     for decl in ctx.body[0]:
         declSym = self.visit(decl, SubBody(o.frame, LocalScope))
         LocalScope += [declSym]
 
-    self.emit.printout(self.emit.emitLABEL(o.frame.getStartLabel(), o.frame))  # Function body begin here
+    # Emit the function's start label
+    self.emit.printout(self.emit.emitLABEL(o.frame.getStartLabel(), o.frame))  
 
+    # Visit the statements in the function's body
     for stm in ctx.body[1]:
         self.visit(stm, o)
 
-    self.emit.printout(self.emit.emitLABEL(o.frame.getEndLabel(), o.frame))  # Function body end here
-
+    # Emit the function's end label and end method
+    self.emit.printout(self.emit.emitLABEL(o.frame.getEndLabel(), o.frame)) 
     self.emit.printout(self.emit.emitENDMETHOD(o.frame))
-    o.frame.exitScope()
 
+    # Exit the function's scope and return its symbol
+    o.frame.exitScope()
     return Symbol(ctx.name, MType(InType, ctx.returnType), CName(self.className))
+

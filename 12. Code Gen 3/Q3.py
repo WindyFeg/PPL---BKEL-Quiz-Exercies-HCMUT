@@ -13,30 +13,53 @@
 
 def visitBinExpr(self, ctx, o):
     frame = o.frame
+    
+    # Visit the first expression and duplicate its value on the stack
     (code, _) = ctx.e1.accept(self, o)
     code += self.emit.emitDUP(frame)
+
     if ctx.op == "&&":
+        # Short-circuit for logical AND
         false_label = frame.getNewLabel()
         code += self.emit.emitIFFALSE(false_label, frame)
+        
+        # Visit the second expression and perform logical AND
         (_code, _) = ctx.e2.accept(self, o)
         code += _code
         code += self.emit.emitANDOP(frame)
+
+        # Jump to the end of the binary expression
         end_bin = frame.getNewLabel()
         code += self.emit.emitGOTO(end_bin, frame)
+
+        # Emit the false label and push false onto the stack
         code += self.emit.emitLABEL(false_label, frame)
         code += self.emit.emitPOP(frame)
         code += self.emit.emitPUSHICONST("false", frame)
+
+        # Emit the end label
         code += self.emit.emitLABEL(end_bin, frame)
     else:
+        # Short-circuit for logical OR
         true_label = frame.getNewLabel()
         code += self.emit.emitIFTRUE(true_label, frame)
+        
+        # Visit the second expression and perform logical OR
         (_code, _) = ctx.e2.accept(self, o)
         code += _code
         code += self.emit.emitOROP(frame)
+
+        # Jump to the end of the binary expression
         end_bin = frame.getNewLabel()
         code += self.emit.emitGOTO(end_bin, frame)
+
+        # Emit the true label and push true onto the stack
         code += self.emit.emitLABEL(true_label, frame)
         code += self.emit.emitPOP(frame)
         code += self.emit.emitPUSHICONST("true", frame)
+
+        # Emit the end label
         code += self.emit.emitLABEL(end_bin, frame)
+
+    # Return the code and the Boolean type
     return code, BoolType()
