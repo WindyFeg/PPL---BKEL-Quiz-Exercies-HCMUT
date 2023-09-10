@@ -1,0 +1,168 @@
+**Chuyển tới nội dung chính**
+**BKEL**
+**PRINCIPLES OF PROGRAMMING LANGUAGES (CO3005)_NGUYỄN HỨA PHÙNG (CLC_HK231)**
+Bắt đầu vào lúc: Chủ nhật, 10 Tháng chín 2023, 12:57 PM
+Tình trạng: Đã hoàn thành
+Hoàn thành vào lúc: Chủ nhật, 10 Tháng chín 2023, 1:09 PM
+Thời gian thực hiện: 12 phút 37 giây
+Điểm: 19,00/23,00
+Điểm tỷ lệ: 8,26/10,00 (82,61%)
+
+**Câu hỏi 1**
+Hoàn thành
+Điểm: 1,00/1,00
+Cờ câu hỏi: Điểm 1
+Nội dung câu hỏi: Điểm 1,00 của 1,00
+Câu hỏi: Nhận dạng biểu thức chính quy nào mô tả ngôn ngữ bao gồm chuỗi từ mã token INTEGER, một chuỗi các chữ số?
+Chọn một hoặc nhiều hơn:
+a. -?[0-9]+
+b. [+-]?[0-9]+
+c. [0-9]*
+d. 0|[1-9][0-9]*
+e. [0-9]+
+
+**Câu hỏi 2**
+Hoàn thành
+Điểm: 3,00/3,00
+Cờ câu hỏi: Điểm 2
+Nội dung câu hỏi: Điểm 3,00 của 3,00
+Câu hỏi: Chọn Đúng cho câu phát biểu đúng và Sai cho câu phát biểu sai.
+Chuỗi aaaaabaaa được chấp nhận bởi automata trong bài giảng.
+Đúng
+Sai
+Chuỗi aaaaabb được chấp nhận bởi automata trong bài giảng.
+Đúng
+Sai
+Automata chấp nhận ngôn ngữ bao gồm chuỗi có số lẻ ký tự b.
+Đúng
+Sai
+
+**Câu hỏi 3**
+Hoàn thành
+Điểm: 0,00/1,00
+Cờ câu hỏi: Điểm 3
+Nội dung câu hỏi: Điểm 0,00 của 1,00
+Câu hỏi: Máy trạng thái hữu hạn Phi tuyến (NFA) khác với Máy trạng thái hữu hạn Xác định (DFA)?
+Chọn một hoặc nhiều hơn:
+a. NFA cho phép nhiều trạng thái cuối
+b. NFA cho phép chuyển sang trạng thái tiếp theo trên đầu vào trống
+c. NFA cho phép nhiều trạng thái cuối
+d. Đối với trạng thái hiện tại và ký tự đầu vào, NFA cho phép nhiều trạng thái tiếp theo
+
+**Câu hỏi 4**
+Hoàn thành
+Điểm: 1,00/1,00
+Cờ câu hỏi: Điểm 4
+Nội dung câu hỏi: Điểm 1,00 của 1,00
+Câu hỏi: Biểu thức chính quy nào mô tả ngôn ngữ bao gồm các chuỗi sau: >=, >, <, <=?
+Chọn một hoặc nhiều hơn:
+a. (<|>)=?
+b. [<>]=?
+c. (<>)=?
+d. >|>=|<|<=
+e. >|<=?
+f. [<|>]=?
+
+**Câu hỏi 5**
+Hoàn thành
+Điểm: 0,00/1,00
+Cờ câu hỏi: Điểm 5
+Nội dung câu hỏi: Điểm 0,00 của 1,00
+Câu hỏi: NFA của biểu thức chính quy (a|b)c sử dụng phương pháp Thompson là gì?
+Chọn một:
+a.
+b.
+c.
+d.
+
+**Câu hỏi 6**
+Hoàn thành
+Điểm: 1,00/1,00
+Cờ câu hỏi: Điểm 6
+Nội dung câu hỏi: Điểm 1,00 của 1,00
+Câu hỏi: Mô tả đúng trong ANTLR của token HEX biểu thị một số thập lục phân trong C? Nhớ rằng một số thập lục phân trong C bắt đầu bằng 0x hoặc 0X và tiếp theo là một chuỗi các chữ số và ký tự (chữ hoa hoặc thường) từ a đến f.
+Chọn một hoặc nhiều hơn:
+a. hex: '0'[xX][0-9a-fA-F]+;
+b. HEX: [0][xX][0-9a-fA-F]+;
+c. HEX: 0[xX][0-9a-fA-F]+;
+d. HEX: '0'[xX][0-9a-fA-F]+;
+
+**Câu hỏi 7**
+Hoàn thành
+Điểm: 0,00/1,00
+Cờ câu hỏi: Điểm 7
+Nội dung câu hỏi: Điểm 0,00 của 1,00
+Câu hỏi: Cho đoạn mã C sau đây:
+inc = -100;
+Có bao nhiêu token được trả về bởi phân tích từ vựng khi phân tích mã trên?
+
+**Câu hỏi 8**
+Hoàn thành
+Điểm: 1,00/1,00
+Cờ câu hỏi: Điểm 8
+Nội dung câu hỏi: Điểm 1,00 của 1,00
+Câu hỏi: Cho đoạn mã C sau đây:
+a[12] = inc * (dec - 1);
+Bao nhiêu token được phân tích từ vựng trả về cho đoạn mã trên?
+Chọn một:
+a. 12
+b. 10
+c. 11
+d. 13
+
+**Câu hỏi 9**
+Hoàn thành
+Điểm: 1,00/1,00
+Cờ câu hỏi: Điểm 9
+Nội dung câu hỏi: Điểm 1,00 của 1,00
+Câu hỏi: Biểu thức chính quy nào mô tả ngôn ngữ bao gồm 4 chuỗi: a, b, c, d?
+Chọn một:
+a. [a|b|c|d]
+b. (abcd)
+c. [a-d]
+d. (a-d)
+
+**Câu hỏi 10**
+Hoàn thành
+Điểm: 10,00/11,00
+Cờ câu hỏi: Điểm 10
+Nội dung câu hỏi: Điểm 10,00 của 11,00
+Câu hỏi: Cho automata sau đây:
+- Trạng thái K của automata trên là {,} và phân tách bằng ,
+- Tập hợp ∑ của đầu vào của automata trên là {,} và phân tách bằng ,
+- Trạng thái khởi đầu s của automata trên là ,
+- Tập F của trạng thái cuối cùng của automata trên là {,} và phân tách bằng ,
+- Hàm chuyển đổi δ được cho bởi bảng sau:
+K
+∑
+δ(K,∑)
+0
+a
+Trả lời
+0
+b
+Trả lời
+1
+a
+Trả lời
+1
+b
+Trả lời
+2
+a
+Trả lời
+2
+b
+Trả lời
+3
+a
+Trả lời
+
+**Câu hỏi 11**
+Hoàn thành
+Điểm: 1,00/1,00
+Cờ câu hỏi: Điểm 11
+Nội dung câu hỏi: Điểm 1,00 của 1,00
+Câu hỏi: Cho đoạn mã C sau đây:
+int a, b = 120, c[10];
+Có bao nhiêu token được trả về bởi phân tích từ vựng khi phân tích mã trên?
