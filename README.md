@@ -1,4 +1,4 @@
-## PRINCIPLES OF PROGRAMMING LANGUAGES (Nguyên Lý Ngôn Ngữ Lập Trình) - CO3005 - HK222 (Update HK231)
+## PRINCIPLES OF PROGRAMMING LANGUAGES (Nguyên Lý Ngôn Ngữ Lập Trình) - CO3005 - HK222 (Update HK231) - HCMUT 
 This Git repository contains quizzes, homework, previous exam papers, and tutorials for the PPL course at HCMUT. These resources are from me and have been collected from previous students across GitHub. 
 
 If you’ve stumbled upon this repository, consider yourself lucky!
