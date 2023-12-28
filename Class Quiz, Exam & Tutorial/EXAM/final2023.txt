@@ -1,0 +1,40 @@
+PPL (Principles of Programming Languages) exam HK231:
+
+Multiple Choice Section (30 questions - 6 point):
+
+    Explain provided code snippets with some theoretical concepts.
+    Discuss pass by value, reference, value-result
+    Some Multiple choice about exception, coroutine   
+    Converting -1.78 to binary code .
+    Short-circuit evaluation.
+    Differentiate between global x/non-local in Python.
+    Discuss Type: (T1*T1) -> (T2).
+    Organize data types: char-1, int-2, float-4.
+    Answer questions related to emitter by filling in the blanks.
+    Question about JVM code
+    Questions about Python's dynamic type declaration.
+    ...
+
+Essay Section (2 Questions - 4 points):
+
+    Question 1: Code Abstract Syntax Tree (AST) related to Assignment 2. Specifically:
+        Program: Node EOF
+        Node components: DL info Node* SM
+        info: NAME COLOR SM
+        NAME: ...
+        COLOR: ...
+
+        Leaf() # name: str, color: str
+        Binary() #name: str, color: str, Left: node, right: node
+        MultiTree() #name: str, color: str, Left: node, middle:[node], right: node
+
+        Explanation: If there's no node, it's a leaf. With one or two nodes, it's a binary tree. Three or more nodes create a multi-tree structure. Illustrate an AST.
+
+    Question 2: In-depth discussion regarding Error Handling in Assignment 3:
+        Program structure: decl EOF
+        Decl components: classdecl, vdecl
+        ...
+
+        Error handling for:
+        a) Redeclare errors for classes, variables, and fields.
+        b) Error handling for static access, field access.
