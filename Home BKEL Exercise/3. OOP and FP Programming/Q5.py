@@ -7,3 +7,12 @@ def dist(lst, n):
     return list(map(lambda x: (x,n), lst))
 
 # print(dist([1,2,3],4))
+
+def dist(lst, n):
+    if len(lst) == 0: return []
+    if len(lst) == 1:
+        return [(lst[0], n)]
+    return [(lst[0], n)] + dist(lst[1:], n)
+
+def dist(lst,n):
+    return [(x,n) for x in lst]
