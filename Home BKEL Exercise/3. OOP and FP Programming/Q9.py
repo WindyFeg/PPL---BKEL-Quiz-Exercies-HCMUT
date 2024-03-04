@@ -22,3 +22,6 @@ def lessThan(lst, n):
     if lst[0] < n:
         res.append(lst[0])
     return res + lessThan(lst[1:], n)
+
+def lessThan(lst, n):
+    return [x for x in lst if x < n]
