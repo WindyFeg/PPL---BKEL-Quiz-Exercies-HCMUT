@@ -4,7 +4,7 @@
 
 from functools import reduce
 def flatten(lst):
-    return reduce(lambda x, y: x + y, lst, [])
+    return reduce(lambda prev, curr: prev + (flatten(curr) if type(curr) is list else [curr]), initial_list, [])
 
 def flatten(lst):
     return [item for sublst in lst for item in sublst]
@@ -16,4 +16,4 @@ def flatten(lst):
             res.extend(flatten(item))
         else:
             res.append(item)
-    return res
+    return res` `

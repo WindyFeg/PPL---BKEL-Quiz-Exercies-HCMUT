@@ -21,20 +21,25 @@
 # Please copy the following class into your answer and modify the bodies of its methods to return the height of the parse tree? Your code starts at line 10.
 
 class Height(MPVisitor):
-    def visitProgram(self, ctx:MPParser.ProgramContext):
+
+    def visitProgram(self,ctx:MPParser.ProgramContext):
         return 1 + self.visit(ctx.vardecls())
 
-    def visitVardecls(self, ctx:MPParser.VardeclsContext):
+    def visitVardecls(self,ctx:MPParser.VardeclsContext):
         return 1 + max(self.visit(ctx.vardecl()), self.visit(ctx.vardecltail()))
+ 
+    def visitVardecltail(self,ctx:MPParser.VardecltailContext): 
+        if ctx.vardecl():
+            return 1 + max(self.visit(ctx.vardecl()), self.visit(ctx.vardecltail()))
+        return 1
 
-    def visitVardecltail(self, ctx:MPParser.VardecltailContext):
-        return 1 + max(self.visit(ctx.vardecl()), self.visit(ctx.vardecltail())) if ctx.vardecl() else 0
+    def visitVardecl(self,ctx:MPParser.VardeclContext): 
+        return 1 + max(self.visit(ctx.mptype()), self.visit(ctx.ids()))
 
-    def visitVardecl(self, ctx:MPParser.VardeclContext):
-        return 1+ max(self.visitMptype(ctx.mptype()), self.visitIds(ctx.ids()))
+    def visitMptype(self,ctx:MPParser.MptypeContext):
+        return 2
 
-    def visitMptype(self, ctx:MPParser.MptypeContext):
-        return 1 
-
-    def visitIds(self, ctx:MPParser.IdsContext):
-        return 1 + self.visit(ctx.ids()) if ctx.ids() else 2
+    def visitIds(self,ctx:MPParser.IdsContext):
+        if ctx.ids():
+            return 1 + self.visit(ctx.ids())
+        return 2
